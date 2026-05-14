@@ -6,6 +6,7 @@ import { getStoredToken, initiateSpotifyLogin, logout } from '@/lib/spotifyAuth'
 import { getCurrentUser, getRecommendations, createSpotifyPlaylist } from '@/lib/spotify';
 import { getUsedTrackIds, markTracksUsed, clearUsedTracks, getUsedCount } from '@/lib/freshTracks';
 import ClassTabs from '@/components/ClassTabs';
+import ClassHero from '@/components/ClassHero';
 import SegmentBuilder from '@/components/SegmentBuilder';
 import ArtistSearch from '@/components/ArtistSearch';
 import PlaylistPreview from '@/components/PlaylistPreview';
@@ -20,6 +21,7 @@ function defaultConfig(type: ClassType): ClassConfig {
     seedGenres: GENRE_OPTIONS[type].slice(0, 2),
     location: '',
     freshTracksOnly: false,
+    vibe: '',
   };
 }
 
@@ -155,7 +157,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200">
       <header className="bg-white/80 backdrop-blur border-b border-slate-200 sticky top-0 z-30">
         <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -205,10 +207,16 @@ export default function Home() {
       <main className="max-w-6xl mx-auto pb-16">
         <ClassTabs active={activeTab} onChange={t => { setActiveTab(t); setPlaylist(null); setSavedUrl(null); }} />
 
-        <div className={`rounded-b-2xl rounded-tr-2xl border-2 ${colors.border} bg-white/90 backdrop-blur shadow-sm mx-6`}>
+        <div className={`rounded-b-2xl rounded-tr-2xl border-2 ${colors.border} bg-white/95 backdrop-blur shadow-xl ${colors.glow} mx-6`}>
           <div className="grid grid-cols-1 lg:grid-cols-5 divide-y lg:divide-y-0 lg:divide-x divide-slate-100">
 
             <div className="lg:col-span-3 p-6 space-y-6">
+              <ClassHero
+                classType={activeTab}
+                vibe={config.vibe}
+                onVibeChange={vibe => setConfig({ vibe })}
+                onVibeApply={genres => setConfig({ seedGenres: genres })}
+              />
               <SegmentBuilder
                 segments={config.segments}
                 onChange={segments => setConfig({ segments })}

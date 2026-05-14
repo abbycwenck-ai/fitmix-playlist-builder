@@ -16,6 +16,7 @@ export interface ClassConfig {
   seedGenres: string[];
   location: string;
   freshTracksOnly: boolean;
+  vibe: string;
 }
 
 export interface SpotifyArtist {
